@@ -4,6 +4,7 @@ node{
     def gitURL="https://github.com/Tirthankar17/DevOpsBootCampCaseStudy.git"
     def maven = tool name: 'Maven 3.8.1', type: 'maven'
     def mavenCMD = "${maven}/bin/mvn"
+    echo "Checking github webhook"
     
     stage('Code checkout from Git'){
         echo "Checking out the code"
