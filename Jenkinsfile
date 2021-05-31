@@ -28,6 +28,7 @@ node{
             def customImage = docker.build('tirthankar17/bootcamp-case-study:1.0')
             echo "Image built successfully"
             customImage.push()
+            }
         }
     }
     stage('Deploying app to slave node via Ansible'){
