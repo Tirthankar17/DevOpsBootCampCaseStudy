@@ -1,7 +1,7 @@
 node{
     //preparing environment
     
-    def gitURL="https://github.com/Tirthankar17/batch10.git"
+    def gitURL="https://github.com/Tirthankar17/DevOpsBootCampCaseStudy.git"
     def maven = tool name: 'Maven 3.8.1', type: 'maven'
     def mavenCMD = "${maven}/bin/mvn"
     
@@ -29,7 +29,10 @@ node{
             customImage.push()
         }
     }
-        
+    stage('Deploying app to slave node via Ansible'){
+        echo "Initializing environment"
+    
     }
-    }
+            
+
 }
