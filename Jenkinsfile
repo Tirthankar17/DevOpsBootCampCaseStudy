@@ -34,7 +34,7 @@ node{
     }
     stage('Deploying app to slave node via Ansible'){
         echo "Initializing environment"
-        ansiblePlaybook become: true, credentialsId: 'ansiblejenkins', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'deployapp.yml', sudo: true
+        ansiblePlaybook become: true, credentialsId: 'ansiblejenkins', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'deployapp.yml'
     
     }
             
