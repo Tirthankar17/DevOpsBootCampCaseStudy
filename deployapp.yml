@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: run command
+      command: hostname
+  handlers:
+  - name: run update
+    apt:
+      update_cache: yes
