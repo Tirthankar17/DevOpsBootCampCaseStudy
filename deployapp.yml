@@ -5,8 +5,7 @@
     - name: run command
       command: hostname
       register: output
-  
-  - debug: output.stdout_lines
+        - debug: output.stdout_lines
   
   handlers:
   - name: run update
