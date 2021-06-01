@@ -24,6 +24,10 @@
       register: docker_version 
     - debug: var=docker_version.stdout_lines
     
+    # Utilising Docker Ansible module to start the container instead of command line
+    # Docker module has inbuilt support for restarting containers. 
+    # In case of command line, first we would have to find and terminate the old container then start the new one.
+    
     - name: Run Docker container
       docker_container:
         name: appserver
