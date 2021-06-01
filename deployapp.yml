@@ -9,8 +9,9 @@
 
     - name: Install pip3 for Python dependency
       command: apt install python3-pip
-
-    - name: Installing dependency for using Docker module
+    
+    # Pip was installed to install the Docker Ansible Module, use of which is explained later in the playbook
+    - name: Installing dependency for using Docker Ansible module
       command: pip3 install docker
 
     - name: Start Docker
@@ -22,11 +23,13 @@
     - name: Checking docker version 
       command: docker --version
       register: docker_version 
-    - debug: var=docker_version.stdout_lines
+    - debug: 
+        msg: "{{ docker_version }}"
     
-    # Utilising Docker Ansible module to start the container instead of command line
+    # Below I am Utilising Docker Ansible module to start the container instead of command line
     # Docker module has inbuilt support for restarting containers. 
     # In case of command line, first we would have to find and terminate the old container then start the new one.
+    # In Docker Ansible Module, we can simply specify restart: yes to enable restart. 
     
     - name: Run Docker container
       docker_container:
@@ -35,6 +38,8 @@
         published_ports: 8888:8888
         state: started
         restart: yes
+    - debug:
+        msg: "Container started successfully on {{ ansible_net_hostname }}"
 
   handlers:
   - name: run update
