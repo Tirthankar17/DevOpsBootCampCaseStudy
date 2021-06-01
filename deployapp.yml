@@ -24,7 +24,7 @@
       command: docker --version
       register: docker_version 
     - debug: 
-        msg: "{{ docker_version }}"
+        msg: "{{ docker_version.stdout_lines }}"
     
     # Below I am Utilising Docker Ansible module to start the container instead of command line
     # Docker module has inbuilt support for restarting containers. 
@@ -39,7 +39,7 @@
         state: started
         restart: yes
     - debug:
-        msg: "Container started successfully on {{ ansible_net_hostname }}"
+        msg: "Container started successfully on {{ ansible_hostname }}"
 
   handlers:
   - name: run update
