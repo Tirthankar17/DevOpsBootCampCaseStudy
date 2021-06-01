@@ -2,12 +2,36 @@
 - hosts: all
   become: true
   tasks:
-    - name: run command
-      command: hostname
-      register: output
+    - name: Install docker
+      apt:
+        name:
+          - docker.io
+
+    - name: Install pip3 for Python dependency
+      command: apt install python3-pip
+
+    - name: Installing dependency for using Docker module
+      command: pip3 install docker
+
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+        enabled: true
+   
+    - name: Checking docker version 
+      command: docker --version
+      register: docker_version 
+    - debug: var=docker_version.stdout_lines
     
-    - debug: var=output.stdout_lines
-  
+    - name: Run Docker container
+      docker_container:
+        name: appserver
+        image: tirthankar17/bootcamp-case-study:1.0
+        published_ports: 8888:8888
+        state: started
+        restart: yes
+
   handlers:
   - name: run update
     apt:
