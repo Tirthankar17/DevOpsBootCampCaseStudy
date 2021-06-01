@@ -1,18 +1,17 @@
 node{
     //preparing environment
+    def gitURL
+    def maven
+    def mavenCMD
     
-    def gitURL="https://github.com/Tirthankar17/DevOpsBootCampCaseStudy.git"
-    def maven = tool name: 'Maven 3.8.1', type: 'maven'
-    def mavenCMD = "${maven}/bin/mvn"
-    echo "Checking github webhook"
-    
+    stage('Preparing environment'){
+        gitURL="https://github.com/Tirthankar17/DevOpsBootCampCaseStudy.git"
+        maven = tool name: 'Maven 3.8.1', type: 'maven'
+        mavenCMD = "${maven}/bin/mvn"
+    }
     stage('Code checkout from Git'){
         echo "Checking out the code"
         git "${gitURL}"
-    }
-    stage('Build Test and Package'){
-        echo "Building the code"
-        sh "${mavenCMD} clean package"
     }
     stage('Sonar Check'){
         //withSonarQubeEnv('sonarqubeserver'){
@@ -21,6 +20,10 @@ node{
     }
     stage('AppScan Test'){
         //appscan application: '2f0476f4-f66c-464f-be87-25759eb32216', credentials: 'AppScanCred', name: 'AppScanTest', scanner: static_analyzer(hasOptions: false, target: "${WORKSPACE}"), type: 'Static Analyzer'
+    }
+    stage('Build Test and Package'){
+        echo "Building the code"
+        sh "${mavenCMD} clean package"
     }
     stage('Building docker Image'){
         docker.withTool('Docker'){
@@ -33,9 +36,8 @@ node{
         }
     }
     stage('Deploying app to slave node via Ansible'){
-        echo "Initializing environment"
         ansiblePlaybook become: true, credentialsId: 'ansiblejenkins', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'deployapp.yml'
-    
+        echo "App deployed successfully on hosts"
     }
             
 
